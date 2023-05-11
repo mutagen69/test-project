@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Авторы{% endblock %}
+
+{% block head_upload %}
+<link rel="stylesheet" href="{% static 'css/authors.css' %}">
+
+<script src="{% static 'js/authors.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div id="snack-bar">
+    <span>ТЕСТОВЫЙ ТЕКСТ</span>
+</div>
+
+<div>
+    <h1>Авторы</h1>
+
+    <div id="search">
+        <input type="text" placeholder="Поиск" name="search" autocomplete="off" />
+    </div>
+
+    <div class="content-block">
+
+        <div class="authors-block">
+
+            <div class="authors-more">
+                <button id="authors_more">
+                    Показать больше
+                </button>
+
+                <div class="error">
+                    <span class="red-color">Не найдено ни одного автора. Попробуйте изменить параметры фильтрации</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div>
+            <h2>Категории</h2>
+            <ul class="categories">
+                <div class="categories-more">
+                    <button id="categories_more">
+                        Ещё
+                    </button>
+                </div>
+            </ul>
+
+            <h2>Теги</h2>
+            <div class="tags">
+                <div class="tags-more">
+                    <button id="tags_more">
+                        Ещё
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="become-author">
+
+    <form method="POST" id="become-author">
+
+        <h1>Стать автором</h1>
+
+        <div>
+
+            <input type="text" name="author-name" placeholder="Имя">
+            <span class="error red-color">Поле Имя не должно быть пустым</span>
+            <input type="text" name="author-email" placeholder="Email">
+            <span class="error red-color">Поле Email не должно быть пустым</span>
+            <span class="error red-color">Email был введён неверно</span>
+            <input type="submit" value="Отправить заявку">
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

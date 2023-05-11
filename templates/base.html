@@ -1,0 +1,236 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Главная{% endblock %} | Блог idPowers</title>
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <script src="{% static 'js/jquery-3.6.4.min.js' %}"></script>
+  <script src="{% static 'js/base.js' %}"></script>
+  {% block head_upload %}
+  {% endblock %}
+</head>
+<body>
+
+<header>
+  <div class="header-block">
+
+    <div class="header-left">
+
+      <a class="logo" href="{% url 'main' %}">
+        <p>
+          idPowers.blog
+        </p>
+      </a>
+
+      <div class="header-urls">
+        <a href="{% url 'articles:articles' %}">Статьи</a>
+        <a href="{% url 'customusers:authors' %}">Авторы</a>
+        {% if request.user.is_authenticated %}
+        {% if request.user.author %}
+        <a href="{% url 'articles:create_article' %}">Новая статья</a>
+        {% endif %}
+        {% endif %}
+      </div>
+
+    </div>
+
+    <div class="header-right">
+      
+      {% if not request.user.is_authenticated %}
+      <div id="open-popup-sign">
+        Войти
+      </div>
+      {% else %}
+      <div id="open-sidebar" class="mini-avatar">
+        <img src="{{ request.user.avatar.url }}" alt="">
+      </div>
+      {% endif %}
+
+      <div class="header-search">
+        <form method="GET" action="{% url 'articles:articles' %}">
+          <input name="q" type="text" placeholder="Поиск" autocomplete="off">
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</header>
+
+{% if request.user.is_authenticated %}
+<div class="sidebar">
+
+  <div id="close-sidebar">
+    Свернуть
+  </div>
+
+  <div class="avatar">
+    <img src="{{ request.user.avatar.url }}" alt="">
+  </div>
+
+  <div class="first-block">
+    <a href="{% url 'customusers:author_by_id' author_id=request.user.id %}">
+      {{ request.user.email }}
+    </a>
+
+    {% if request.user.author %}
+    <span class="grey-text">Опубликованных статей: {{ request.user.articles.count }}</span>
+    <span class="grey-text">Просмотров: {{ request.user.views_count }}</span>
+    {% endif %}
+  </div>
+
+  <div class="second-block">
+    <a href="{% url 'favorites' %}">
+      Избранное
+    </a>
+  </div>
+
+  <div class="third-block">
+
+    {% if not request.user.author %}
+    <div class="tool-type" id="author-request-tool-type">
+      <h2>Вы уверены?</h2>
+      <div class="tool-type-btns">
+        <form method="post" action="" id="become-author-sidebar">
+          {% csrf_token %}
+
+          <input type="hidden" name="author-name" value="{{ request.user.full_name }}">
+          <input type="hidden" name="author-email"  value="{{ request.user.email }}">
+
+          <button id="close-tool-type" type="button">Нет</button>
+          <button id="yes-tool-type" type="submit">Да</button>
+        </form>
+      </div>
+    </div>
+    <button id="author-request">Стать автором</button>
+    {% endif %}
+
+    <button id="open-set-password">Изменить пароль</button>
+    <a href="{% url 'logout' %}">Выйти</a>
+
+  </div>
+
+</div>
+
+<div id="set-password-popup">
+  <div class="popup">
+    <div id="close-set-password-popup">X</div>
+    <h2>Смена пароля</h2>
+    <form action="" class="sign-form" id="set-password" method="post">
+      {% csrf_token %}
+
+      {{ set_password_form.old_password }}
+      {{ set_password_form.new_password1 }}
+      {{ set_password_form.new_password2 }}
+
+      <input type="submit" value="Сменить пароль" />
+    </form>
+  </div>
+</div>
+
+{% else %}
+
+<div class="popup-bg">
+  <div class="popup">
+
+    <div id="close-popup-sign">X</div>
+
+    <div class="popup-header">
+      <button id="auth" class="popup-btn active">Войти</button>
+      <button id="reg" class="popup-btn">Регистрация</button>
+    </div>
+
+    <form method="post" action="" class="sign-form" id="auth-form">
+      {% csrf_token %}
+
+      {{ auth_form.username }}
+      {{ auth_form.password }}
+
+      <p class="error">Неверный логин или пароль</p>
+
+      <button type="button" id="reset-password">Забыли пароль?</button>
+
+      <input type="submit" value="Войти" name="login" />
+      <input type="hidden" name="next" value="{% url 'main' %}" />
+
+    </form>
+
+    <form method="post" action="" class="sign-form" id="reg-form">
+      {% csrf_token %}
+
+      {{ reg_form.errors }}
+
+      {{ reg_form.first_name }}
+      {{ reg_form.last_name }}
+      {{ reg_form.email }}
+      {{ reg_form.password1 }}
+      {{ reg_form.password2 }}
+
+      <input type="submit" value="Регистрация" name="registration" />
+      <input type="hidden" name="next" value="{% url 'main' %}" />
+
+    </form>
+
+  </div>
+</div>
+
+<div id="email-popup">
+  <div class="popup">
+    <div id="close-email-popup-sign">X</div>
+    <h2>Еще пару кликов...</h2>
+    <p>
+      На <span id="email-confirm"></span> выслано письмо со ссылкой для подтверждения регистрации.<br>Перейдите по ссылке для получения доступа к полному функционалу блога.
+    </p>
+  </div>
+</div>
+
+<div id="check-email-popup">
+  <div class="popup">
+    <div id="close-check-email-popup">X</div>
+    <form id="check-email" action="" class="sign-form" method="post">
+      {% csrf_token %}
+      <input type="email" placeholder="Email" name="email" />
+      <input type="submit" value="Восстановить пароль" />
+    </form>
+  </div>
+</div>
+
+{% if password_reset %}
+
+<div id="password-reset-popup">
+  <div class="popup">
+    <div id="close-password-reset-popup">X</div>
+    <h2>Восстановление пароля</h2>
+    <form id="password-reset" action="" class="sign-form" method="post">
+      {% csrf_token %}
+      {{ password_reset.uidb64 }}
+      {{ password_reset.token }}
+      {{ password_reset.new_password1 }}
+      {{ password_reset.new_password2 }}
+      <input type="submit" value="Сменить пароль" />
+    </form>
+  </div>
+</div>
+
+{% endif %}
+{% endif %}
+
+<div id="snack-bar">
+  <span>ТЕСТОВЫЙ ТЕКСТ</span>
+</div>
+
+<div class="content">
+  {% block content %}
+  {% endblock %}
+
+  <footer>
+    <div class="footer-text">
+      ©️ idPowers
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

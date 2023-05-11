@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{user.full_name}}{% endblock %}
+
+{% block head_upload %}
+<link rel="stylesheet" href="{% static 'css/authors.css' %}">
+<link rel="stylesheet" href="{% static 'css/author.css' %}">
+
+<script src="{% static 'js/authors.js' %}"></script>
+<script src="{% static 'js/author.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="author-block">
+
+    <div class="author-avatar">
+        <a href="{% url 'customusers:author_by_id' author_id=author.id %}">
+            <img src="{{ author.avatar.url }}">
+        </a>
+    </div>
+
+    <div class="author-info">
+
+        <a href="{% url 'customusers:author_by_id' author_id=author.id %}">
+            <h2>{{ author.full_name }}</h2>
+        </a>
+
+        <div class="author-views">
+            <p class="grey-color">{{ author.views_count }} просмотров</p>
+        </div>
+
+    </div>
+
+</div>
+
+<div>
+
+    <h1>Об авторе</h1>
+    <p>
+        {{ author.about }}
+    </p>
+
+</div>
+
+{% if author.categories %}
+<div class="author-categories">
+
+    <h1>Категории</h1>
+
+    <p>
+        {% for category in author.categories %}
+        <a class="category" href="/articles/?category={{ category }}">
+             {{ category }}
+        </a>
+        {% endfor %}
+    </p>
+
+</div>
+{% endif %}
+
+{% if author.tags %}
+<div>
+
+    <h1>Теги статей</h1>
+
+    <div class="tags">
+
+        {% for tag in author.tags %}
+        <a class="tag" href="/articles/?tags={{ tag }}">
+            <div>
+                {{ tag }}
+            </div>
+        </a>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endif %}
+
+<div>
+    <h1>Статьи</h1>
+    <div class="articles-block">
+        <div>
+            <div class="articles-more">
+                <button id="articles_more">
+                    Показать больше
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

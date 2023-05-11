@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block head_upload %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="main-image">
+
+    <div>
+        <h1>
+            Блог idPowers
+        </h1>
+        <p>Узнавай новое каждый день!</p>
+    </div>
+
+</div>
+
+<div>
+    <h1>Популярные теги на этой неделе</h1>
+    <div class="popular-tags">
+        {% for tag in top_tags %}
+        <a class="tag" href="{% url 'articles:articles' %}?tags={{ tag.title }}">
+            {{ tag.title }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div>
+    <h1>Наиболее просматриваемые статьи за неделю</h1>
+    <div class="mini-articles">
+        {% for article in top_articles %}
+        <div>
+            <div>
+                <div>
+                    <h2><a href="{% url 'articles:article_by_slug' article_slug=article.slug %}">{{ article.title }}</a></h2>
+                    <p>{{ article.reading_time }} мин. для прочтения</p>
+                </div>
+                <div>
+                    <a href="{% url 'articles:article_by_slug' article_slug=article.slug %}">
+                        <img src="{{ article.preview.url }}">
+                    </a>
+                </div>
+            </div>
+            <div>
+                <div class="tag-not-click">
+                    {{ article.tags.first.title }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div>
+    <h1>Статьи</h1>
+    <div class="articles-block">
+        <div>
+            <div class="articles-more">
+                <button id="articles_more">
+                    Показать больше
+                </button>
+            </div>
+        </div>
+        <div>
+            <h2>Категории</h2>
+            <ul class="categories">
+                <div class="categories-more">
+                    <button id="categories_more">
+                        Ещё
+                    </button>
+                </div>
+                <div class="filters-more">
+                    <a href="{% url 'articles:articles' %}">Больше фильтров -></a>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

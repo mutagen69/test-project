@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if not edit %}
+Новая статья
+{% else %}
+Редактирование статьи
+{% endif %}
+{% endblock %}
+
+{% block head_upload %}
+<link rel="stylesheet" href="{% static 'css/article.css' %}">
+<link rel="stylesheet" href="{% static 'fonts/Awesome/css/font-awesome.min.css' %}">
+
+<script src="/static/tinymce/tinymce.min.js"></script>
+<script src="/static/django_tinymce/init_tinymce.js"></script>
+{% endblock %}
+
+{% block content %}
+<div>
+    {% if not edit %}
+    <h1>Создание статьи</h1>
+    {% else %}
+    <h1>Редактирование статьи</h1>
+    {% endif %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <input type="submit" value="Сохранить">
+    </form>
+</div>
+{% endblock %}

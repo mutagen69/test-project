@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load mptt_tags %}
+{% load static %}
+
+{% block title %}Статьи{% endblock %}
+
+{% block head_upload %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+<script src="{% static 'js/articles.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Статьи</h1>
+    <div id="search">
+        <input type="text" placeholder="Поиск" name="search">
+    </div>
+    <div class="articles-block">
+        <div>
+            <div class="articles-more">
+                <button id="articles_more">
+                    Показать больше
+                </button>
+            </div>
+            <div class="error">
+                <span class="red-color">Не найдено ни одной статьи. Попробуйте изменить параметры фильтрации</span>
+            </div>
+        </div>
+        <div>
+            <h2>Сортировка</h2>
+            <div class="sorted">
+                <div>
+                    <input type="radio" id="sorted_1" name="sorted" value="relevance" checked="checked"/>
+                    <label for="sorted_1">По актуальности</label>
+                </div>
+                <div>
+                    <input type="radio" id="sorted_2" name="sorted" value="views" />
+                    <label for="sorted_2">По просмотрам</label>
+                </div>
+                <div>
+                    <input type="radio" id="sorted_3" name="sorted" value="comments" />
+                    <label for="sorted_3">По количеству комментариев</label>
+                </div>
+            </div>
+
+            <h2>Категории</h2>
+            <ul class="categories">
+                <div class="categories-more">
+                    <button id="categories_more">
+                        Ещё
+                    </button>
+                </div>
+            </ul>
+
+            <h2>Теги</h2>
+            <div class="tags">
+                <div class="tags-more">
+                    <button id="tags_more">
+                        Ещё
+                    </button>
+                </div>
+            </div>
+
+            <button id="more-filters">
+                Больше фильтров
+            </button>
+
+            <div class="other-filters">
+                <h2>Дата публикации</h2>
+                <div class="date-limits">
+                    <input name="date-start" placeholder="От"/>
+                    <input name="date-end" placeholder="До"/>
+                </div>
+
+                <h2>Время чтения</h2>
+                <div class="reading-limits">
+                    <button value="1">
+                        До 5 минут
+                    </button>
+                    <button value="2">
+                        От 5 до 10 минут
+                    </button>
+                    <button value="3">
+                        От 10 до 15 минут
+                    </button>
+                    <button value="4">
+                        Более 15 минут
+                    </button>
+                </div>
+
+                <h2>Автор</h2>
+                <div class="author-select">
+                    <input type="text" placeholder="Поиск" name="author-search">
+                    <div id="open-author-list">
+                        <span class="left"></span>
+                        <span class="right"></span>
+                    </div>
+                    <div class="authors-block">
+                        <div id="authors-find">
+                            <button class="apply-author not-find" value="0" disabled="disabled">Авторы не найдены</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="not-more-filters">
+                    Меньше фильтров
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

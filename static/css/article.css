@@ -1,0 +1,252 @@
+.grey-color {
+    color: grey;
+}
+
+.back {
+    border: none;
+    background: none;
+
+    font-size: 18px;
+    font-family: 'Noto Sans';
+
+    color: gray;
+    cursor: pointer;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 0px !important;
+}
+
+.article-header-right {
+    display: flex;
+    align-items: center;
+}
+
+.favorite {
+    background: none;
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+.category, .tag {
+    font-family: 'Noto Sans';
+    font-size: 15px;
+}
+
+.category:hover {
+    text-decoration: underline;
+}
+
+.category::after {
+    content: '>';
+}
+
+.category:last-child:after {
+    content: '';
+}
+
+.author-categories > p > .category::after {
+    content: '•';
+}
+
+.author-categories > p > .category:last-child:after {
+    content: '';
+}
+
+.tag {
+    padding: 10px 15px;
+
+    background: #f2f2f2;
+    color: #797979;
+    border-radius: 15px;
+
+    cursor: pointer;
+
+    margin-right: 10px;
+}
+
+.preview {
+    width: 100%;
+    max-height: 500px;
+
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.preview > img {
+    height: 100%;
+    max-height: 500px;
+}
+
+.more-info {
+    font-size: 14px;
+}
+
+.author-block {
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.author-avatar {
+    width: 150px;
+    height: 150px;
+    padding: 25px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.author-avatar > a > img {
+    width: 150px;
+}
+
+.comments-header {
+    display: flex;
+    align-items: center;
+}
+
+.comments-count {
+    padding: 0 9px;
+    background: lightgrey;
+    border-radius: 15px;
+}
+
+.add-comment > textarea {
+    width: 100%;
+    height: 350px;
+    resize: none;
+
+    padding: 20px;
+
+    font-size: 16px;
+    font-family: 'Noto Sans';
+
+    border: 1px solid grey;
+    border-radius: 15px;
+
+    outline: none;
+}
+
+.add-comment > input[type="submit"], .more-articles {
+    padding: 10px 15px;
+
+    background: black;
+
+    font-size: 16px;
+    font-family: 'Noto Sans';
+    color: white;
+
+    border: none;
+    border-radius: 15px;
+
+    cursor: pointer;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 50px;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+}
+
+.comment-author-avatar {
+    margin-right: 20px;
+}
+
+.articles-block > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.articles-block > div > div {
+    margin-bottom: 50px;
+}
+
+.articles-block > div > div > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.articles-block > div > div > div:nth-child(2) > div > a > img {
+    width: 200px;
+}
+
+.articles-block > div > div > div:nth-child(2) > div > h2,
+.articles-block > div > div > div:nth-child(2) > div > h3,
+.articles-block > div > div > div:nth-child(2) > div > p{
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.articles-block > div > div > div:nth-child(2) > div:nth-child(1) {
+    margin-right: 50px;
+}
+
+.articles-block > div:nth-child(1) > div > div:nth-child(3) {
+    display: flex;
+}
+
+.articles-block > div:nth-child(1) > div > div:nth-child(3) > a {
+    margin-right: 10px;
+}
+
+.articles-block > div:nth-child(1) > div > div:nth-child(3) > a > div {
+    padding: 10px;
+}
+
+.author-info:not(.author-block > .author-info) {
+    display: flex;
+    align-items: center;
+}
+
+.author-info:not(.author-block > .author-info) > a {
+    display: flex;
+    align-items: center;
+}
+
+.mini-avatar {
+    width: 50px;
+    margin-right: 10px;
+
+    display: inline-block;
+}
+
+.tag-not-click {
+    background-color: rgba(215, 215, 215, 1);
+    color: rgba(100, 100, 100, 1);
+    border-radius: 10px;
+
+    margin-right: 10px;
+    padding: 10px 15px;
+}
+
+.articles-block > div > div > div:nth-child(3) {
+    display: flex;
+}
+
+#favorite-del > button > i {
+    color: #8b00ff;
+}
+
+#favorite-add > button > i {
+    color: black;
+}
+
+.article-settings > a {
+    color: grey;
+    margin-right: 15px;
+}

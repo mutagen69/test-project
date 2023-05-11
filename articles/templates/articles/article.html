@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{article.title}}{% endblock %}
+
+{% block head_upload %}
+<link rel="stylesheet" href="{% static 'css/article.css' %}">
+<link rel="stylesheet" href="{% static 'fonts/Awesome/css/font-awesome.min.css' %}">
+
+<script src="{% static 'js/article.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<button class="back" onclick="window.history.go(-1); return false;"> < Вернуться </button>
+
+<p class="grey-color">
+    {{ article.published|date:"d.m.Y" }}&nbsp;&nbsp;&nbsp;&nbsp;
+    {{ article.reading_time }} минуты на чтение
+</p>
+
+<div class="header">
+    <div class="article-header-left">
+        <h2>{{ article.title }}</h2>
+    </div>
+
+    <div class="article-header-right">
+        <p>
+            <i class="fa fa-eye" aria-hidden="true"></i> {{ article.views_count }}
+        </p>
+        <input type="hidden" name="article-id" value="{{ article.id }}">
+        {% if not is_favorite %}
+        <form method="post" id="favorite-add">
+            {% csrf_token %}
+            <input type="hidden" name="article" value="{{ article.id }}">
+            <button type="submit" class="favorite">
+                <i class="fa fa-star-o" aria-hidden="true"></i>
+            </button>
+        </form>
+        {% else %}
+        <form method="post" id="favorite-del">
+            {% csrf_token %}
+            <input type="hidden" name="article" value="{{ is_favorite }}">
+            <button type="submit" class="favorite">
+                <i class="fa fa-star-o" aria-hidden="true"></i>
+            </button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+{% if request.user.email == article.author.email %}
+
+<div class="article-settings">
+    <a href="{% url 'articles:edit_article' article_id=article.id %}">Изменить статью</a>
+    <a href="{% url 'articles:article_delete' article_id=article.id %}">Удалить статью</a>
+</div>
+
+{% endif %}
+
+<div class="categories">
+    {% for category in categories %}
+    <a class="category" href="{% url 'articles:articles' %}?category={{ category.title }}">
+        {{ category.title }}
+    </a>
+    {% endfor %}
+</div>
+
+<div class="tags">
+    {% for tag in article.tags.all %}
+    <a class="tag" href="{% url 'articles:articles' %}?tags={{ tag.title }}">
+        {{ tag.title }}
+    </a>
+    {% endfor %}
+</div>
+
+<div class="preview">
+    <img src="{{ article.preview.url }}">
+</div>
+
+<div class="article-text">
+    {{ article.content|safe }}
+</div>
+
+<div class="author-block">
+
+    <div class="author-avatar">
+        <a href="{% url 'customusers:author_by_id' author_id=article.author.id %}">
+            <img src="{{ article.author.avatar.url }}">
+        </a>
+    </div>
+
+    <div class="author-info">
+
+        <a href="{% url 'customusers:author_by_id' author_id=article.author.id %}">
+            <h2>{{ article.author.full_name }}</h2>
+        </a>
+
+        <div class="author-categories">
+            <p>
+                Категории публикации статей:<br>
+                {% for author_article in article.author.articles.all.distinct %}
+                <a class="category" href="{% url 'articles:articles' %}?category={{ author_article.category.title }}">
+                    {{ author_article.category.title }}
+                </a>
+                {% endfor %}
+            </p>
+        </div>
+
+        <div class="author-views">
+            <p class="grey-color">{{ article.author.views_count }} просмотров</p>
+        </div>
+
+        <a class="grey-color more-info" href="{% url 'customusers:author_by_id' author_id=article.author.id %}">
+            Узнать больше
+        </a>
+
+    </div>
+
+</div>
+
+<div class="comments-block">
+    <div class="comments-header">
+        <h2>Комментарии</h2>
+        <h2 class="comments-count">{{ article.comments.count }}</h2>
+    </div>
+    <div class="comments">
+        {% for comment in article.comments.all %}
+        <div class="comment">
+            <div class="comment-header">
+                <div class="comment-author-avatar">
+                    <a href="{% url 'customusers:author_by_id' author_id=comment.author.id %}">
+                        <img src="{{ comment.author.avatar.url }}">
+                    </a>
+                </div>
+                <div class="comment-author-data">
+                    <p>
+                        <a href="{% url 'customusers:author_by_id' author_id=comment.author.id %}">
+                            {{ comment.author.fio }}
+                        </a>
+                    </p>
+                    <p class="grey-color">{{ comment.published|date:"d.m.Y" }}</p>
+                </div>
+            </div>
+            <div class="comment-content">
+                {{ comment.text }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if request.user.is_authenticated %}
+    <form class="add-comment" action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="article" value="{{ article.id }}">
+        <textarea name="text"></textarea>
+        <input type="submit" value="Добавить">
+    </form>
+    {% else %}
+    <h3>Для добавления комментриев необходимо авторизоваться</h3>
+    {% endif %}
+</div>
+
+<div class="articles-block">
+    <h2>Похожие статьи</h2>
+    <div>
+        {% for article in articles %}
+        <div class="article">
+            <div>
+                <p class="author-info">
+                    <a href="{% url 'customusers:author_by_id' author_id=article.author.id %}">
+                        <img class="mini-avatar" src="{{ article.author.avatar.url }}">
+                        {{ article.author.fio }}
+                    </a>
+                    <span class="grey-color"> в категории </span> <span class="set_category_from_article">{{ article.category.title }}</span>
+                </p>
+            </div>
+            <div>
+                <div>
+                    <h2><a href="{% url 'articles:article_by_slug' article_slug=article.slug %}">{{ article.title }}</a></h2>
+                    <h3><a href="{% url 'articles:article_by_slug' article_slug=article.slug %}">{{ article.short_content }}</a></h3>
+                    <p>
+                        <span class="grey-color">
+                            {{ article.published|date:"d.m.Y" }}        {{ article.reading_time }} мин. для прочтения
+                        </span>
+                    </p>
+                </div>
+                <div>
+                    <a href="{% url 'articles:article_by_slug' article_slug=article.slug %}">
+                        <img src="{{ article.preview.url }}">
+                    </a>
+                </div>
+            </div>
+            <div>
+
+                {% for tag in article.tags.all %}
+                <a href="{% url 'articles:articles' %}?tags={{ tag.title }}">
+                    <div class="tag-not-click">
+                        {{ tag.title }}
+                    </div>
+                </a>
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'articles:articles' %}?category={{ article.category }}" class="more-articles">
+        Показать больше
+    </a>
+</div>
+
+{% endblock %}

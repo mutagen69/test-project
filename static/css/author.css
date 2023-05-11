@@ -1,0 +1,110 @@
+.author-block {
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tags {
+    max-width: 1000px;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.articles-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.articles-block > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.articles-block > div:nth-child(1) {
+    width: 59%;
+    margin-right: 50px;
+}
+
+.articles-block > div:nth-child(2) {
+    width: 360px;
+}
+
+.articles-block > div > div {
+    margin-bottom: 50px;
+}
+
+.articles-block > div > div > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.articles-block > div > div > div:nth-child(2) > div > a > img {
+    width: 200px;
+}
+
+.articles-block > div > div > div:nth-child(2) > div > h2,
+.articles-block > div > div > div:nth-child(2) > div > h3,
+.articles-block > div > div > div:nth-child(2) > div > p{
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.articles-block > div > div > div:nth-child(2) > div:nth-child(1) {
+    margin-right: 50px;
+}
+
+.articles-block > div:nth-child(1) > div > div:nth-child(3) {
+    display: flex;
+}
+
+.articles-block > div:nth-child(1) > div > div:nth-child(3) > a {
+    margin-right: 10px;
+}
+
+.articles-block > div:nth-child(1) > div > div:nth-child(3) > a > div {
+    padding: 10px;
+}
+
+.tag-not-click {
+    background-color: rgba(215, 215, 215, 1);
+    color: rgba(100, 100, 100, 1);
+    border-radius: 10px;
+}
+
+.articles-more {
+    display: flex;
+    justify-content: center;
+}
+
+#articles_more {
+    padding: 10px 15px;
+    font-family: 'Noto Sans';
+    font-size: 19px;
+    background: none;
+    border: 1px solid rgba(200, 200, 200, 1);
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.author-info-m {
+    display: flex;
+    align-items: center;
+}
+
+.author-info-m > a {
+    display: flex;
+    align-items: center;
+}
+
+.mini-avatar {
+    width: 50px;
+    margin-right: 10px;
+
+    display: inline-block;
+}
